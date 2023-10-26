@@ -7,7 +7,7 @@ public class SpawnManager : MonoBehaviour
 
     public GameObject[] enemies;
 
-    public GameObject powerupPrefab;
+    public GameObject[] powerupPrefab;
     private float spawnRange = 9.0f;
 
     public int enemyCount;
@@ -36,9 +36,11 @@ public class SpawnManager : MonoBehaviour
         for (int i = 0; i < enemiesToSpawn; i++)
         {
             int randomIndex = Random.Range(0, enemies.Length);
+            int powerupRandomIndex = Random.Range(0, powerupPrefab.Length);
 
             Instantiate(enemies[randomIndex], GenerateSpawnPosition(), enemies[randomIndex].transform.rotation);
-            Instantiate(powerupPrefab, GenerateSpawnPosition(), powerupPrefab.transform.rotation);
+
+            Instantiate(powerupPrefab[powerupRandomIndex], GenerateSpawnPosition(), powerupPrefab[powerupRandomIndex].transform.rotation);
 
         }
     }

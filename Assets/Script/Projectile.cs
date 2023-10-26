@@ -5,51 +5,19 @@ using UnityEngine;
 public class Projectile : MonoBehaviour
 {
     public float speed = 10f;
-    public float lifetime = 5.0f; // Time in seconds before the projectile is destroyed
+    public float lifetime = 2.0f;
+    public float angle = 0f; // Angle at which the projectile should move (in degrees)
 
     private void Start()
     {
         Destroy(gameObject, lifetime);
+        // Convert the angle to radians for trigonometric calculations
+        float angleRad = Mathf.Deg2Rad * angle;
+
+        // Calculate the direction vector from the angle
+        Vector3 moveDirection = new Vector3(Mathf.Sin(angleRad), 0, Mathf.Cos(angleRad));
+
+        // Set the velocity based on the direction
+        GetComponent<Rigidbody>().velocity = moveDirection * speed;
     }
-
-    private void Update()
-    {
-        // Move the projectile forward
-        transform.Translate(Vector3.forward * speed * Time.deltaTime);
-    }
-
-    // public float speed = 10f;
-    // private Rigidbody projectileRb;
-    // private GameObject enemy;
-
-
-    // // private float spawnTime = 5.0f;
-    // // private float startDelay = 0.1f;
-    // // Start is called before the first frame update
-
-    // // Start is called before the first frame update
-    // void Start()
-    // {
-    //     projectileRb = GetComponent<Rigidbody>();
-    //     enemy = GameObject.FindWithTag("Enemy");
-
-    //     ProjectileMovement();
-    //     // InvokeRepeating("ProjectileMovement", startDelay, spawnTime);
-    // }
-
-    // // Update is called once per frame
-    // void Update()
-    // {
-    // }
-
-    // public void ProjectileMovement()
-    // {
-
-    //     Vector3 lookDirection = enemy.transform.position - transform.position;
-    //     projectileRb.AddForce(lookDirection * speed);
-
-    //     if (transform.position.y < -10)
-    //     { Destroy(gameObject); }
-
-    // }
 }
