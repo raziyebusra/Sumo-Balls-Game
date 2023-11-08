@@ -16,9 +16,9 @@ public class PlayerController : MonoBehaviour
     public float speed = 5.0f;
 
     //explosion radius
-    public float radius = 90.0F;
+    public float radius = 50.0F;
     //explosion force
-    public float power = 50.0F;
+    public float power = 3000.0F;
 
     public bool hasPowerup = false;
     public bool isGreenPowerupActive = false;
@@ -206,10 +206,10 @@ public class PlayerController : MonoBehaviour
     // Attack powerup
     private IEnumerator SmashAttack()
     {
-        float smashSpeed = speed * 5;
+        float smashSpeed = speed * 15;
         isMovingToTarget = true;
         originalPosition = transform.position;
-        targetPosition = originalPosition + Vector3.up * 5.0f; // Set the target 5 units above the original position
+        targetPosition = originalPosition + Vector3.up * 4.0f; // Set the target 5 units above the original position
 
 
         float journeyLength = Vector3.Distance(transform.position, targetPosition);
@@ -264,7 +264,7 @@ public class PlayerController : MonoBehaviour
                         if (enemyRigidbody != null)
                         {
                             Vector3 direction = hitCollider.transform.position - transform.position;
-                            enemyRigidbody.AddForce(direction.normalized * power, ForceMode.Impulse);
+                            enemyRigidbody.AddForce(direction.normalized * power, ForceMode.VelocityChange);
                         }
                     }
                 }
