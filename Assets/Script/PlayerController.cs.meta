@@ -3,7 +3,11 @@ guid: f00c785f27f354382ad10e352cc71eea
 MonoImporter:
   externalObjects: {}
   serializedVersion: 2
-  defaultReferences: []
+  defaultReferences:
+  - powerupIndicator: {fileID: 3134028182930260392, guid: f5c12abe7ac0840d2806f278011f942f, type: 3}
+  - powerupIndicatorGreen: {fileID: 2996048175764674695, guid: 3bf91d5e1a8d74596a93df9eba24d652, type: 3}
+  - powerupIndicatorAttack: {fileID: 9156349730124376793, guid: a3d239adb5e1749f9ad68ea4f5756362, type: 3}
+  - projectilePrefab: {fileID: 501967880655840774, guid: bbf56796311a247b38e97b574e118450, type: 3}
   executionOrder: 0
   icon: {instanceID: 0}
   userData: 

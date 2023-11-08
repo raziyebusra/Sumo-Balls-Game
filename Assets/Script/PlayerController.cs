@@ -15,11 +15,19 @@ public class PlayerController : MonoBehaviour
     private float powerUpStrenght = 10.0f;
     public float speed = 5.0f;
 
+    //explosion radius
+    public float radius = 90.0F;
+    //explosion force
+    public float power = 50.0F;
+
     public bool hasPowerup = false;
     public bool isGreenPowerupActive = false;
     public bool isAttackPowerupActive = false;
 
     private bool isMovingToTarget = false; // Indicates if the object is currently moving to the target in SmashAttack
+    private bool isGrounded = true;
+    private bool jumped = false;
+
 
 
     private Coroutine powerupCountdown;
@@ -32,9 +40,13 @@ public class PlayerController : MonoBehaviour
     public GameObject projectilePrefab;
     public float projectileSpawnDistance = 0.5f; // Adjust this value to control the spawn distance
 
+
+
     //SmashAttack variables          
     private Vector3 originalPosition;
     private Vector3 targetPosition;
+    private object enemies;
+
     //public Projectile projectileScript;
 
 
@@ -64,9 +76,14 @@ public class PlayerController : MonoBehaviour
             SpawnProjectile();
         }
 
-        if (isAttackPowerupActive && Input.GetKeyDown(KeyCode.Space) && !isMovingToTarget)
+        if (isAttackPowerupActive && Input.GetKeyDown(KeyCode.Space) && !isMovingToTarget && isGrounded)
         {
             StartCoroutine(SmashAttack());
+            StartCoroutine(FreezeXYPositions());
+            jumped = true;
+            isGrounded = false;
+
+
         }
     }
     private void OnTriggerEnter(Collider other)
@@ -132,6 +149,19 @@ public class PlayerController : MonoBehaviour
         }
     }
 
+    IEnumerator FreezeXYPositions()
+    {
+        playerRb.angularVelocity = Vector3.zero;
+
+        // freeze the X and Z positions of player
+
+        playerRb.constraints = RigidbodyConstraints.FreezePositionX;
+        playerRb.constraints = RigidbodyConstraints.FreezePositionZ;
+
+        yield return new WaitForSeconds(1.5f);
+
+        playerRb.constraints = RigidbodyConstraints.None;
+    }
     IEnumerator PowerupCountdownRoutine()
     {
         yield return new WaitForSeconds(7);
@@ -176,7 +206,7 @@ public class PlayerController : MonoBehaviour
     // Attack powerup
     private IEnumerator SmashAttack()
     {
-        float smashSpeed = speed * 2;
+        float smashSpeed = speed * 5;
         isMovingToTarget = true;
         originalPosition = transform.position;
         targetPosition = originalPosition + Vector3.up * 5.0f; // Set the target 5 units above the original position
@@ -217,7 +247,33 @@ public class PlayerController : MonoBehaviour
         {
             playerRb.constraints = RigidbodyConstraints.None;
 
+            Collider[] colliders = Physics.OverlapSphere(transform.position, radius);
+
+
+            if (collision.gameObject.CompareTag("floor") && jumped)
+            {
+                // Get all colliders within the explosion radius
+                Collider[] hitColliders = Physics.OverlapSphere(transform.position, radius);
+
+                // Apply force to enemies found within the explosion radius
+                foreach (Collider hitCollider in hitColliders)
+                {
+                    if (hitCollider.CompareTag("Enemy"))
+                    {
+                        Rigidbody enemyRigidbody = hitCollider.GetComponent<Rigidbody>();
+                        if (enemyRigidbody != null)
+                        {
+                            Vector3 direction = hitCollider.transform.position - transform.position;
+                            enemyRigidbody.AddForce(direction.normalized * power, ForceMode.Impulse);
+                        }
+                    }
+                }
+
+                isGrounded = true;
+                jumped = false;
+            }
         }
     }
 }
+
 
