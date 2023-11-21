@@ -8,16 +8,20 @@ public class SpawnManager : MonoBehaviour
     public GameObject[] enemies;
 
     public GameObject[] powerupPrefab;
+    public GameObject[] bossPrefab;
     private float spawnRange = 9.0f;
 
     public int enemyCount;
+    public int bossCount;
+
+    //    bool isBossSpawned = false;
     public int waveNumber = 0;
+
 
     void Start()
     {
 
         SpawnEnemyWave(waveNumber);
-
     }
 
     // Update is called once per frame
@@ -29,6 +33,11 @@ public class SpawnManager : MonoBehaviour
             waveNumber++;
             SpawnEnemyWave(1);
         }
+        GameObject[] bossInTheScene = GameObject.FindGameObjectsWithTag("Boss");
+
+
+        bossCount = bossInTheScene.Length;
+        if ((waveNumber % 3 == 0) && (bossCount < 1)) { SpawnBoss(); }
 
     }
     void SpawnEnemyWave(int enemiesToSpawn)
@@ -43,6 +52,15 @@ public class SpawnManager : MonoBehaviour
             Instantiate(powerupPrefab[powerupRandomIndex], GenerateSpawnPosition(), powerupPrefab[powerupRandomIndex].transform.rotation);
 
         }
+    }
+    void SpawnBoss()
+    {
+
+
+        Instantiate(bossPrefab[0], GenerateSpawnPosition(), bossPrefab[0].transform.rotation);
+
+        //  isBossSpawned = true;
+
     }
 
     private Vector3 GenerateSpawnPosition()

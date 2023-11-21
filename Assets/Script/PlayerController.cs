@@ -206,10 +206,10 @@ public class PlayerController : MonoBehaviour
     // Attack powerup
     private IEnumerator SmashAttack()
     {
-        float smashSpeed = speed * 15;
+        float smashSpeed = speed * 55;
         isMovingToTarget = true;
         originalPosition = transform.position;
-        targetPosition = originalPosition + Vector3.up * 4.0f; // Set the target 5 units above the original position
+        targetPosition = originalPosition + Vector3.up * 3.0f; // Set the target 3 units above the original position
 
 
         float journeyLength = Vector3.Distance(transform.position, targetPosition);
