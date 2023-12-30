@@ -37,7 +37,7 @@ public class SpawnManager : MonoBehaviour
 
 
         bossCount = bossInTheScene.Length;
-        if ((waveNumber % 3 == 0) && (bossCount < 1)) { SpawnBoss(); }
+        if ((waveNumber % 5 == 0) && (bossCount < 1)) { SpawnBoss(); }
 
     }
     void SpawnEnemyWave(int enemiesToSpawn)
