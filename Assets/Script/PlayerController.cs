@@ -241,7 +241,7 @@ public class PlayerController : MonoBehaviour
 
             enemyRigidbody.AddForce(awayFromPlayer * powerUpStrenght, ForceMode.Impulse);
 
-            Debug.Log("collided with: " + collision.gameObject.name + "with powerup set to" + hasPowerup);
+
         }
         if (collision.gameObject.CompareTag("floor"))
         {
